@@ -339,9 +339,26 @@ h2{font-weight:800;letter-spacing:-0.035em;line-height:1.05;font-size:clamp(2rem
   --muted:rgba(11,26,59,0.62);--line:rgba(11,26,59,0.10);--blue-soft:rgba(24,77,221,0.08);
 }
 .form select:invalid{color:var(--muted)}
-.seg{display:flex;gap:8px;margin-bottom:1.4rem}
-.seg button{flex:1;padding:.8rem;border:1.5px solid var(--line);background:var(--paper);border-radius:13px;font-family:inherit;font-weight:700;font-size:.9rem;color:var(--muted);cursor:pointer;transition:.2s}
-.seg button.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.seg{display:flex;gap:10px;margin-bottom:1.4rem}
+.seg-card{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:.55rem;
+  padding:1.1rem .8rem 1rem;
+  border:1.5px solid var(--line);background:var(--paper);border-radius:16px;
+  font-family:inherit;cursor:pointer;transition:border-color .2s,background .2s,box-shadow .2s;
+  text-align:center;
+}
+.seg-card:hover{border-color:rgba(24,77,221,.35);background:#fff}
+.seg-card.active{border-color:var(--blue);background:#fff;box-shadow:0 0 0 3px rgba(24,77,221,.12)}
+.seg-card .sc-ic{
+  width:48px;height:48px;border-radius:13px;background:#F4F2EE;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s;
+}
+.seg-card.active .sc-ic{background:rgba(24,77,221,.10)}
+.seg-card .sc-ic svg{width:22px;height:22px;color:#0B1A3B;transition:color .2s}
+.seg-card.active .sc-ic svg{color:var(--blue)}
+.seg-card .sc-title{font-weight:700;font-size:.95rem;letter-spacing:-.015em;color:var(--ink);line-height:1.2}
+.seg-card .sc-sub{font-size:.76rem;font-weight:500;color:var(--muted);line-height:1.3}
 .form .btn{width:100%;justify-content:center}
 .dev-note{margin-top:.9rem;font-size:.7rem;color:var(--muted);text-align:center;font-weight:500}
 .form-ok{
@@ -890,8 +907,16 @@ footer{background:var(--ink);color:#fff;padding:72px 0 36px}
           </select>
           <label>I'm interested as a…</label>
           <div class="seg" id="seg">
-            <button type="button" class="active" data-role="Customer">Customer</button>
-            <button type="button" data-role="Tasker">Tasker</button>
+            <button type="button" class="seg-card active" data-role="Customer">
+              <span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></span>
+              <span class="sc-title">Customer</span>
+              <span class="sc-sub">I need help with tasks</span>
+            </button>
+            <button type="button" class="seg-card" data-role="Tasker">
+              <span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/><circle cx="12" cy="16" r="1.2" fill="currentColor" stroke="none"/></svg></span>
+              <span class="sc-title">Tasker</span>
+              <span class="sc-sub">I want to earn money</span>
+            </button>
           </div>
           <label for="f-source">Where did you hear about us?</label>
           <select id="f-source" required>
@@ -1015,8 +1040,8 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 // role segment
 let role='Customer';
 document.getElementById('seg').addEventListener('click',e=>{
-  const b=e.target.closest('button'); if(!b)return;
-  document.querySelectorAll('#seg button').forEach(x=>x.classList.remove('active'));
+  const b=e.target.closest('.seg-card'); if(!b)return;
+  document.querySelectorAll('#seg .seg-card').forEach(x=>x.classList.remove('active'));
   b.classList.add('active'); role=b.dataset.role;
 });
 
